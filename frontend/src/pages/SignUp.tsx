@@ -12,7 +12,7 @@ export const SignUp = () => {
     const passwordRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = async ()=>{
-        await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+        await axios.post(`${BACKEND_URL}/auth/signup`, {
             username : usernameRef.current?.value,
             password : passwordRef.current?.value
         }).then(()=>{

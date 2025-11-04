@@ -21,7 +21,7 @@ export const Share = ()=>{
 
     useEffect(()=>{
         async function fetch(){
-            const res =  await axios.get<contentsType>(`${BACKEND_URL}/api/v1/brain/${hash}`, {
+            const res =  await axios.get<contentsType>(`${BACKEND_URL}/brain/${hash}`, {
                 headers : {
                     Authorization : localStorage.getItem("token")
                 }

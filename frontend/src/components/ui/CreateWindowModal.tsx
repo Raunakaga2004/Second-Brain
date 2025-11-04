@@ -30,7 +30,7 @@ export const CreateWindowModal = () => {
             return
         }
 
-        await axios.post(`${BACKEND_URL}/api/v1/content`, 
+        await axios.post(`${BACKEND_URL}/content`, 
             {
             title : titleRef.current?.value,
             link : linkRef.current?.value,

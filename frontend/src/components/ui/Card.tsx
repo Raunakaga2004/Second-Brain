@@ -28,7 +28,7 @@ export const Card = (props : cardProps) => {
     const setReloadRecoil = useSetRecoilState(reloadRecoil);
 
     const deleteHandler = async () => {
-        await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+        await axios.delete(`${BACKEND_URL}/content`, {
             params : {
                 id : props._id
             }, 

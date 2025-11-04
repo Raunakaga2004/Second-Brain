@@ -20,7 +20,7 @@ export const MainContent = () => {
 
     useEffect(()=>{
         async function fetch(){
-            await axios.get<cardProps[]>(`${BACKEND_URL}/api/v1/content`, {
+            await axios.get<cardProps[]>(`${BACKEND_URL}/content`, {
                 headers : {
                     Authorization : localStorage.getItem('token')
                 }
@@ -44,7 +44,7 @@ export const MainContent = () => {
     }
 
     const shareBrainHandler = async () => {
-        const res = await axios.post<responseType>(`${BACKEND_URL}/api/v1/brain/share`,{
+        const res = await axios.post<responseType>(`${BACKEND_URL}/brain/share`,{
             share : true
         }, {
             headers : {

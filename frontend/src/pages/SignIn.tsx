@@ -16,7 +16,7 @@ export const SignIn = () => {
     }
 
     const submitHandler = async () => {
-        await axios.post<SignInResponse>(`${BACKEND_URL}/api/v1/signin`, {
+        await axios.post<SignInResponse>(`${BACKEND_URL}/auth/signin`, {
             username : usernameRef.current?.value,
             password : passwordRef.current?.value
         }).then((res)=>{

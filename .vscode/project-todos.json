@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1762195741626",
+    "text": "add signout button",
+    "completed": false
+  },
+  {
+    "id": "1762195579469",
+    "text": "make a home page without sign in",
+    "completed": false
+  },
+  {
+    "id": "1762195626661",
+    "text": "organize the backend code",
+    "completed": false
+  },
+  {
+    "id": "1762195565195",
+    "text": "refine the sigin and signup page",
+    "completed": false
+  },
+  {
+    "id": "1762195660903",
+    "text": "and search feature to query through the posts",
+    "completed": false
+  },
+  {
+    "id": "1762195708993",
+    "text": "add normal text post, other links, and youtube and x",
+    "completed": false
+  }
+]

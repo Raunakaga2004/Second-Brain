@@ -1,6 +1,6 @@
 import  express, {Request, Response} from "express";
 
-import cors from "cors";
+import cors from "cors"
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
@@ -9,6 +9,8 @@ import {User, Content, Link} from "./db";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
 
+import authRouter from './routes/auth'
+
 const app = express();
 
 app.use(cors());
@@ -16,62 +18,7 @@ app.use(cors());
 const PORT = 3000;
 
 app.use(express.json());
-
-//@ts-ignore
-app.post("/api/v1/signup", async (req, res) =>{
-    const {username, password} =  req.body;
-
-    try{
-        const user = await User.findOne({username : username});
-        if(user){
-            return res.status(403).json({
-                message : "Username already exists"
-            })
-        }
-
-        await User.create({
-            username : username,
-            password : password
-        });
-        
-        res.status(200).json({
-            message : "User created successfully"
-        })
-
-    }
-    catch(e){
-        res.status(500).json({
-            message : "Server Error!"
-        })
-    }
-})
-
-//@ts-ignore
-app.post("/api/v1/signin", async (req, res) =>{
-    const {username, password} = req.body;
-    try{
-        const user = await User.findOne({
-            username : username,
-            password : password
-        })
-        if(!user){
-            return res.status(403).json({
-                message : "Wrong email/password!"
-            });
-        }
-        
-        const token = jwt.sign({
-            id : user._id
-        }, JWT_PASSWORD);
-        
-        res.json({token});
-    }
-    catch(e){
-        res.status(500).json({
-            message : "Server Error!"
-        });
-    }
-})
+app.use('/api/v1/auth', authRouter)
 
 //@ts-ignore
 app.post("/api/v1/content", userMiddleware, async (req, res) => {

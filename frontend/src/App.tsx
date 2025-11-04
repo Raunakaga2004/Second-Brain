@@ -5,6 +5,7 @@ import { SignUp } from './pages/SignUp'
 import { useRecoilValue } from 'recoil'
 import { reloadRecoil } from './store/atom'
 import { Share } from './pages/Share'
+import LandingPage from './pages/LandingPage'
 
 function App() {
 
@@ -18,6 +19,10 @@ function App() {
       <Route path="/signin" element={<SignIn/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path='/share' element={<Share/>}/>
+      
+
+      {/* temporary routes */}
+      <Route path='/landing' element={<LandingPage/>}/>
     </Routes>
   </BrowserRouter>
 }
