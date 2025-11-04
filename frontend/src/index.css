@@ -3,8 +3,8 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #26396f;
-  --secondary: #7e95e1;
+  --primary: #4b6bfb;
+  --secondary: rgb(27, 45, 107);
 }
 
 body {

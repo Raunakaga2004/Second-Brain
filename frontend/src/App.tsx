@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Home } from './pages/Home'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { useRecoilValue } from 'recoil'
 import { reloadRecoil } from './store/atom'
 import { Share } from './pages/Share'
-import LandingPage from './pages/LandingPage'
+// import LandingPage from './components/ui/LandingPage'
+import { ForgotPassword } from './pages/ForgotPassword'
+import { ResetPassword } from './pages/ResetPassword'
+import Home from './pages/Home'
 
 function App() {
 
@@ -19,10 +21,11 @@ function App() {
       <Route path="/signin" element={<SignIn/>}/>
       <Route path="/signup" element={<SignUp/>}/>
       <Route path='/share' element={<Share/>}/>
-      
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       {/* temporary routes */}
-      <Route path='/landing' element={<LandingPage/>}/>
+      {/* <Route path='/landing' element={<LandingPage/>}/> */}
     </Routes>
   </BrowserRouter>
 }
