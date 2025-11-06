@@ -112,7 +112,7 @@ export const MainContent = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="p-6 md:p-8 bg-[#f7faff] min-h-screen"
+      className="p-6 md:p-8 bg-[#f7faff] min-h-screen overflow-y-auto"
     >
       <div className="flex justify-between items-center mb-8 flex-wrap gap-3">
         <h1 className="text-xl font-semibold text-gray-800"><span className="text-blue-600 text-2xl">{userName}'s</span> Brain</h1>
@@ -135,10 +135,19 @@ export const MainContent = () => {
         </div>
       </div>
 
-      <div className="text-gray-500 text-center mt-20">
-        {contents?.map((content) => {
-          return <Card title={content.title} type={content.type} link={content.link} key={content._id} _id={content._id}/>
-        })}
+      <div className="mt-10 px-2 sm:px-4 md:px-8 text-gray-700">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+          {contents?.map((content) => (
+            <div key={content._id} className="break-inside-avoid">
+              <Card
+                title={content.title}
+                type={content.type}
+                link={content.link}
+                _id={content._id}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );

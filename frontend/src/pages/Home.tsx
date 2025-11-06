@@ -34,13 +34,13 @@ const Home = () => {
 
   return (
   <div className="h-screen w-screen flex flex-col bg-[#f7faff] overflow-hidden">
-    {/* Main body */}
-    <div className="flex-1 flex pt-[56px] md:pt-0">
-      <SideBar />
-      <div className="flex-1 overflow-y-auto">
-        <MainContent />
-      </div>
+  {/* Main body */}
+  <div className="flex-1 flex pt-[56px] md:pt-0 overflow-hidden">
+    <SideBar />
+    <div className="flex-1 overflow-y-auto">
+      <MainContent />
     </div>
+  </div>
 
     {/* Modal */}
     <AnimatePresence>

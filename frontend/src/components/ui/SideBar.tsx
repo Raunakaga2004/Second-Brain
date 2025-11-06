@@ -139,12 +139,12 @@ export const SideBar = () => {
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
               <Youtube size={18} /> YouTube Videos
             </li>
-            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
+            {/* <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
               <Link size={18} /> Links
             </li>
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
               <Tag size={18} /> Tags
-            </li>
+            </li> */}
           </ul>
         </div>
 

@@ -101,13 +101,19 @@ export const Share = () => {
         className="flex-1 p-6 md:p-8 pt-[56px] md:pt-8"
       >
         {/* Header */}
-        <div className="font-semibold text-3xl text-gray-800 mb-6">
-          {loading
-            ? "Loading Shared Brain..."
-            : error
-            ? "Error Loading Brain"
-            : `Shared Brain of ${username}`}
+        <div className="mb-6">
+          {loading ? (
+            <h1 className="text-xl font-semibold text-gray-800">Loading Shared Brain...</h1>
+          ) : error ? (
+            <h1 className="text-xl font-semibold text-red-600">Error Loading Brain</h1>
+          ) : (
+            <h1 className="text-xl font-semibold text-gray-800">
+              Shared Brain of{" "}
+              <span className="text-blue-600 text-2xl font-semibold">{username}</span>
+            </h1>
+          )}
         </div>
+
 
         {/* Error Message */}
         {error && (
