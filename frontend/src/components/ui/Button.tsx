@@ -1,34 +1,37 @@
 import type { ReactElement } from "react";
 
 interface ButtonProps {
-    variant : "primary" | "secondary";
-    size : "sm" | "md" | "lg";
-    text : string;
-    startIcon? : ReactElement; //any is not the correct choice. 'ReactElement' is the best choice
-    endIcon? : ReactElement;
-    onClick? : () => void;
-}
-
-const backgroundVariant = {
-    "primary" : "bg-[var(--primary)] text-white",
-    "secondary" : "bg-[var(--secondary)] text-white"
+  variant: "primary" | "secondary";
+  size: "sm" | "md" | "lg";
+  text: string;
+  startIcon?: ReactElement;
+  endIcon?: ReactElement;
+  onClick?: () => void;
 }
 
 const sizeVariant = {
-    "sm" : "px-2 py-1 text-xs rounded-xl",
-    "md" : "px-4 py-2 text-sm rounded-md",
-    "lg" : "px-8 py-4 text-lg rounded-lg",
-}
+  sm: "px-2 py-1 text-xs rounded-xl",
+  md: "px-4 py-2 text-sm rounded-md",
+  lg: "px-8 py-4 text-lg rounded-lg",
+};
 
-const defaultStyling = "border border-0 flex gap-2 items-center justify-center"
+const defaultStyling =
+  "border flex gap-2 items-center justify-center transition-all duration-200";
 
-export const Button = (props : ButtonProps) => {
+export const Button = (props: ButtonProps) => {
+  const base =
+    props.variant === "primary"
+      ? "bg-[var(--primary)] text-white hover:bg-white hover:text-[var(--primary)] hover:border-[var(--primary)]"
+      : "bg-[var(--secondary)] text-white hover:bg-white hover:text-[var(--secondary)] hover:border-[var(--secondary)]";
 
-    //option 1 : using nested if else
-
-    return <button className={`${backgroundVariant[props.variant]} ${sizeVariant[props.size]} ${defaultStyling}`} onClick={props.onClick}>
-        {props.startIcon}
-        {props.text}
-        {props.endIcon}
+  return (
+    <button
+      onClick={props.onClick}
+      className={`${base} ${sizeVariant[props.size]} ${defaultStyling}`}
+    >
+      {props.startIcon}
+      {props.text}
+      {props.endIcon}
     </button>
-}
+  );
+};

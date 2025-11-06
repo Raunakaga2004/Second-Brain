@@ -13,6 +13,7 @@ export const SignIn = () => {
 
   interface SignInResponse {
     token: string;
+    user : string
   }
 
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -44,6 +45,7 @@ export const SignIn = () => {
       });
 
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", res.data.user)
       toast.success("Signed in successfully!");
       navigate("/");
     } catch {

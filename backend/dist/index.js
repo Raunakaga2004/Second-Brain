@@ -15,63 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("./config");
 const db_1 = require("./db");
 const middleware_1 = require("./middleware");
 const utils_1 = require("./utils");
+const auth_1 = __importDefault(require("./routes/auth"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const PORT = 3000;
 app.use(express_1.default.json());
-//@ts-ignore
-app.post("/api/v1/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    try {
-        const user = yield db_1.User.findOne({ username: username });
-        if (user) {
-            return res.status(403).json({
-                message: "Username already exists"
-            });
-        }
-        yield db_1.User.create({
-            username: username,
-            password: password
-        });
-        res.status(200).json({
-            message: "User created successfully"
-        });
-    }
-    catch (e) {
-        res.status(500).json({
-            message: "Server Error!"
-        });
-    }
-}));
-//@ts-ignore
-app.post("/api/v1/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    try {
-        const user = yield db_1.User.findOne({
-            username: username,
-            password: password
-        });
-        if (!user) {
-            return res.status(403).json({
-                message: "Wrong email/password!"
-            });
-        }
-        const token = jsonwebtoken_1.default.sign({
-            id: user._id
-        }, config_1.JWT_PASSWORD);
-        res.json({ token });
-    }
-    catch (e) {
-        res.status(500).json({
-            message: "Server Error!"
-        });
-    }
-}));
+app.use('/api/v1/auth', auth_1.default);
 //@ts-ignore
 app.post("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { type, link, title } = req.body;
@@ -171,9 +124,8 @@ app.get("/api/v1/brain/:sharelink", middleware_1.userMiddleware, (req, res) => _
         content
     });
 }));
-const DATABASE_URI = "mongodb+srv://root:12022004@cluster0.emubo4v.mongodb.net/";
 app.listen(PORT);
-mongoose_1.default.connect(DATABASE_URI).then(() => {
+mongoose_1.default.connect(config_1.DATABASE_URI).then(() => {
     console.log("Connected to MongoDB");
 }).catch((e) => {
     console.error(e);

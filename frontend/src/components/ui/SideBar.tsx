@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Youtube, Link, Tag, Twitter, LogOut, Menu, X } from "lucide-react";
+import { Youtube, Link, Tag, Twitter, LogOut, Menu, X, TwitterIcon } from "lucide-react";
 import { LogoIcon } from "../../assets/icons/LogoIcon";
 import { useNavigate } from "react-router-dom";
+import { FaXTwitter } from "react-icons/fa6";
 
 export const SideBar = () => {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ export const SideBar = () => {
               <div className="flex-1">
                 <ul className="space-y-4 text-gray-700 font-medium">
                   <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-                    <Twitter size={18} /> Tweets
+                    <FaXTwitter size={18} /> Tweets
                   </li>
                   <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
                     <Youtube size={18} /> YouTube Videos
@@ -133,7 +134,7 @@ export const SideBar = () => {
 
           <ul className="space-y-4 text-gray-700 font-medium">
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-              <Twitter size={18} /> Tweets
+              <FaXTwitter size={18} /> Tweets Tweets
             </li>
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
               <Youtube size={18} /> YouTube Videos

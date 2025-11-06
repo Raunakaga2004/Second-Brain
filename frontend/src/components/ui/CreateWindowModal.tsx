@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { CloseIcon } from "../../assets/icons/CloseIcon";
 import { Button } from "./Button";
 import { Input } from "./Input";
@@ -11,9 +11,12 @@ import { motion } from "framer-motion";
 export const CreateWindowModal = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const setModalWindow = useSetRecoilState(modalwindowRecoil);
 
-  const submitHandler = async () => {
+  const submitHandler = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
     const linkValue = linkRef.current?.value?.toLowerCase() || "";
     const linkType = linkValue.includes("youtube.com")
       ? "youtube"
@@ -46,36 +49,54 @@ export const CreateWindowModal = () => {
       });
   };
 
+  // ✅ Close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setModalWindow(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setModalWindow]);
+
   return (
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 w-[90%] max-w-sm mx-auto"
-    >
-      <div
-        className="flex justify-end text-gray-500 hover:text-red-500 cursor-pointer"
-        onClick={() => setModalWindow(false)}
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
+      <motion.div
+        ref={modalRef}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 150, damping: 15 }}
+        className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 w-[90%] max-w-sm relative"
       >
-        <CloseIcon size="md" />
-      </div>
+        {/* Close button */}
+        <button
+          onClick={() => setModalWindow(false)}
+          className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors"
+          aria-label="Close modal"
+        >
+          <CloseIcon size="md" />
+        </button>
 
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        Add New Content
-      </h2>
+        {/* Title */}
+        <h2 className="text-xl font-semibold text-gray-800 mb-5 text-center">
+          Add New Content
+        </h2>
 
-      <div className="flex flex-col gap-4">
-        <Input placeholder="Title" reference={titleRef} />
-        <Input placeholder="Link" reference={linkRef} />
+        {/* Form */}
+        <form onSubmit={submitHandler} className="flex flex-col gap-4">
+          <Input placeholder="Title" reference={titleRef} />
+          <Input placeholder="Link" reference={linkRef} />
 
-        <Button
-          variant="primary"
-          text="Submit"
-          size="md"
-          onClick={submitHandler}
-        />
-      </div>
-    </motion.div>
+          <Button
+            variant="primary"
+            text="Submit"
+            size="md"
+            type="submit"
+          />
+        </form>
+      </motion.div>
+    </div>
   );
 };

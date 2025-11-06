@@ -1,16 +1,47 @@
 import { motion } from "framer-motion";
 import { Button } from "./Button";
-import { useSetRecoilState } from "recoil";
-import { modalwindowRecoil } from "../../store/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { modalwindowRecoil, reloadRecoil } from "../../store/atom";
 import { BACKEND_URL } from "../../config";
 import axios from 'axios'
+import { Card, type cardProps } from "./Card";
+import { useEffect, useState } from "react";
+import { Copy, Plus, Share, Share2Icon } from "lucide-react";
+import { toast } from "react-toastify";
 
 export const MainContent = () => {
-  const setModalWindow = useSetRecoilState(modalwindowRecoil);
+  const [contents, setContents] = useState<cardProps[]>([]);
+  const [modalWindow, setModalWindow] = useRecoilState(modalwindowRecoil);
+
+  const reloadRecoilVal = useRecoilValue(reloadRecoil);
+
+  const [userName, setUserName] = useState("User");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    setUserName(storedUser || "User") 
+  }, [])
+
+  useEffect(()=>{
+      async function fetch(){
+          await axios.get<cardProps[]>(`${BACKEND_URL}/content`, {
+              headers : {
+                  Authorization : localStorage.getItem('token')
+              }
+          }).then((res)=>{
+              //@ts-ignore
+              setContents(res.data.content);
+          }).catch((e)=>{
+              console.log(e);
+          })
+      }
+
+      fetch();
+  }, [modalWindow, reloadRecoilVal])
 
   interface responseType  {
-        hash : String
-    }
+    hash : String
+  }
 
   const shareBrainHandler = async () => {
       const res = await axios.post<responseType>(`${BACKEND_URL}/brain/share`,{
@@ -22,7 +53,58 @@ export const MainContent = () => {
       })
       
       console.log(res);
-      alert(`http://localhost:5173/share?hash=${res.data.hash}`);
+
+      // const shareLink = `http://localhost:5173/share?hash=${res.data.hash}`;
+      // navigator.clipboard.writeText(shareLink);
+      // toast.success("Share link copied to clipboard!");
+
+      const shareLink = `http://localhost:5173/share?hash=${res.data.hash}`;
+
+      toast(
+        <div className="flex flex-col items-center justify-between gap-3">
+          {/* Link */}
+          Share Your Brain
+          <div></div>
+          <a
+            href={shareLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-800 underline text-sm break-all hover:text-blue-600 transition"
+          >
+            {shareLink}
+          </a>
+
+          {/* Copy Icon Button */}
+          <Copy
+            size={18}
+            className="text-gray-600 hover:text-blue-600 cursor-pointer transition"
+            onClick={() => {
+              navigator.clipboard.writeText(shareLink);
+              toast.success("Link copied to clipboard!", {
+                position: "top-right",
+                autoClose: 2000,
+                theme: "light",
+              });
+            }}
+          />
+        </div>,
+        {
+          position: "bottom-center",
+          autoClose: 5000,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light", // no colored toast
+          style: {
+            background: "#fff",
+            border: "1px solid #e5e7eb",
+            color: "#111",
+            borderRadius: "10px",
+            padding: "10px 14px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+          },
+        }
+      );
   }
 
   return (
@@ -33,22 +115,31 @@ export const MainContent = () => {
       className="p-6 md:p-8 bg-[#f7faff] min-h-screen"
     >
       <div className="flex justify-between items-center mb-8 flex-wrap gap-3">
-        <h1 className="text-2xl font-semibold text-gray-800">All Notes</h1>
+        <h1 className="text-xl font-semibold text-gray-800"><span className="text-blue-600 text-2xl">{userName}'s</span> Brain</h1>
 
         <div className="flex gap-3">
-          <Button variant="secondary" text="Share Brain" size="md" onClick={shareBrainHandler}/>
+          <Button 
+            variant="secondary" 
+            text="Share Brain" 
+            size="md" 
+            onClick={shareBrainHandler}
+            startIcon={<Share2Icon size={18}/>}
+          />
           <Button
             variant="primary"
             text="Add Content"
             size="md"
             onClick={() => setModalWindow(true)}
+            startIcon={<Plus size={18}/>}
           />
         </div>
       </div>
 
       <div className="text-gray-500 text-center mt-20">
-        Your saved content will appear here 👇
+        {contents?.map((content) => {
+          return <Card title={content.title} type={content.type} link={content.link} key={content._id} _id={content._id}/>
+        })}
       </div>
     </motion.div>
   );
-};
+}

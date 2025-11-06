@@ -1,8 +1,11 @@
 import mongoose, { Types } from "mongoose";
 
 const UsersSchema = new mongoose.Schema({
-    username : {type : String, required : true, unique : true},
-    password : {type : String, required : true}
+    name : {type : String, required : true},
+    mail : {type : String, required : true, unique : true},
+    password : {type : String, required : true},
+    resetToken: { type: String },
+    resetTokenExpiry: { type: Number },
 })
 
 const contentTypes = ['youtube', 'x'];

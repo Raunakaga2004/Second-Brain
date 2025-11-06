@@ -19,7 +19,7 @@ export interface cardProps {
     _id : string;
     userId? : {
         _id : string;
-        username : string;
+        name : string;
     }
 }
 
@@ -27,7 +27,7 @@ export const Card = (props : cardProps) => {
 
     const setReloadRecoil = useSetRecoilState(reloadRecoil);
 
-    const deleteHandler = async () => {
+    const deleteHandler = async () => { 
         await axios.delete(`${BACKEND_URL}/content`, {
             params : {
                 id : props._id

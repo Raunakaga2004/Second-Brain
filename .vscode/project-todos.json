@@ -1,23 +1,28 @@
 [
   {
+    "id": "1762320602946",
+    "text": "add name in the profile",
+    "completed": true
+  },
+  {
     "id": "1762195741626",
     "text": "add signout button",
-    "completed": false
+    "completed": true
   },
   {
     "id": "1762195579469",
     "text": "make a home page without sign in",
-    "completed": false
+    "completed": true
   },
   {
     "id": "1762195626661",
     "text": "organize the backend code",
-    "completed": false
+    "completed": true
   },
   {
     "id": "1762195565195",
     "text": "refine the sigin and signup page",
-    "completed": false
+    "completed": true
   },
   {
     "id": "1762195660903",

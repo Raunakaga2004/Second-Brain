@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import type { cardProps } from "../components/ui/Card";
 import { Card } from "../components/ui/Card";
 import axios from "axios";
 import { SideBar } from "../components/ui/SideBar";
 import { motion } from "framer-motion";
+import { jwtDecode } from "jwt-decode";
+import { LandingPage } from "../components/ui/LandingPage";
+import { SignIn } from "./SignIn";
 
 interface ContentsResponse {
+  user : {
+    _id : string;
+    name : string
+  },
   content: cardProps[];
 }
 
@@ -19,6 +26,38 @@ export const Share = () => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const navigate = useNavigate();
+
+  interface DecodedToken {
+    id: string;
+    exp: number;
+  }
+  
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+  let authenticated = false;
+
+  if (token) {
+    try {
+      const decoded: DecodedToken = jwtDecode(token);
+      if (decoded.exp * 1000 > Date.now()) {
+        authenticated = true;
+        setIsAuthenticated(true);
+      } else {
+        localStorage.removeItem("token");
+      }
+    } catch {
+      localStorage.removeItem("token");
+    }
+  }
+
+  if (!authenticated) {
+    navigate("/signin");
+  }
+}, [navigate]);
+
 
   useEffect(() => {
     async function fetch() {
@@ -33,12 +72,13 @@ export const Share = () => {
           }
         );
 
-        if (res.data.content && res.data.content.length > 0) {
+        setUsername(res.data.user.name);
+
+        if (res.data.content) {
+          console.log(res.data)
           setContents(res.data.content);
-          setUsername(res.data.content[0].userId?.username || "Unknown");
-        } else {
-          setError("No shared content found.");
         }
+
       } catch (err) {
         console.error("Error fetching shared brain:", err);
         setError("Something went wrong while loading this shared brain.");
