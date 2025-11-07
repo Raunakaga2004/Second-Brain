@@ -41,9 +41,6 @@ router.post("/signup", async (req, res) => {
 
     return res.status(200).json({ message: "User created successfully" });
   } catch (e: any) {
-    if (e instanceof z.ZodError) {
-      return res.status(400).json({ message: e.errors[0].message });
-    }
     console.error(e);
     res.status(500).json({ message: "Server Error!" });
   }
@@ -66,7 +63,7 @@ router.post("/signin", async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id }, JWT_PASSWORD, {
-      expiresIn: "7d",
+      expiresIn: "30d",
     });
 
     return res.json({
@@ -74,14 +71,11 @@ router.post("/signin", async (req, res) => {
       user : user.name
      });
   } catch (e: any) {
-    if (e instanceof z.ZodError) {
-      return res.status(400).json({ message: e.errors[0].message });
-    }
-    console.error(e);
     res.status(500).json({ message: "Server Error!" });
   }
 });
 
+//@ts-ignore
 router.post("/forgot-password", async (req, res) => {
   const { mail } = req.body;
 
@@ -140,6 +134,7 @@ router.post("/forgot-password", async (req, res) => {
   }
 });
 
+//@ts-ignore
 router.post("/reset-password/:token", async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;

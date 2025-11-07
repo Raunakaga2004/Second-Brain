@@ -8,15 +8,16 @@ const UsersSchema = new mongoose.Schema({
     resetTokenExpiry: { type: Number },
 })
 
-const contentTypes = ['youtube', 'x'];
+const contentTypes = ['youtube', 'x', 'text', 'link'];
 
 const ContentSchema = new mongoose.Schema({
-    link : {type : String, required : true},
-    type : {type : String, enum : contentTypes, required : true},
-    title : {type : String, required : true},
-    tags : [{type : Types.ObjectId, ref : 'Tag'}],
-    userId : {type : Types.ObjectId, ref : 'User', required : true}
-});
+  title: { type: String, required: true },
+  description: { type: String },
+  type : {type: String, enum : contentTypes, default : 'text'},
+  link: {type : String},
+  tags: [{ type: Types.ObjectId, ref: 'Tag' }],
+  userId: { type: Types.ObjectId, ref: 'User', required: true },
+}, { timestamps: true });
 
 const LinkSchema = new mongoose.Schema({
     hash : {type : String, required : true, unique : true},

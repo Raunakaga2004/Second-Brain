@@ -134,17 +134,11 @@ export const SideBar = () => {
 
           <ul className="space-y-4 text-gray-700 font-medium">
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-              <FaXTwitter size={18} /> Tweets Tweets
+              <FaXTwitter size={18} /> X
             </li>
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-              <Youtube size={18} /> YouTube Videos
+              <Youtube size={18} /> YouTube
             </li>
-            {/* <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-              <Link size={18} /> Links
-            </li>
-            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-              <Tag size={18} /> Tags
-            </li> */}
           </ul>
         </div>
 
