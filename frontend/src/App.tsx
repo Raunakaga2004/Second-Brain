@@ -8,6 +8,8 @@ import { Share } from './pages/Share'
 import { ForgotPassword } from './pages/ForgotPassword'
 import { ResetPassword } from './pages/ResetPassword'
 import Home from './pages/Home'
+import { EditWindowModal } from './components/ui/EditWindowModal'
+import { PreviewModal } from './components/ui/PreviewModel'
 
 function App() {
 
@@ -15,7 +17,8 @@ function App() {
 
   return <BrowserRouter>
 
-    {console.log(reloadRecoilValue)}
+    <EditWindowModal/>
+    <PreviewModal/>
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/signin" element={<SignIn/>}/>

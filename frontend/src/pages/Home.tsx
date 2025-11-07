@@ -7,6 +7,7 @@ import { MainContent } from "../components/ui/MainContent";
 import { LandingPage } from "../components/ui/LandingPage";
 import { jwtDecode } from "jwt-decode";
 import { motion, AnimatePresence } from "framer-motion";
+import { EditWindowModal } from "../components/ui/EditWindowModal";
 
 interface DecodedToken {
   id: string;

@@ -2,63 +2,78 @@ import { useRef, useEffect } from "react";
 import { CloseIcon } from "../../assets/icons/CloseIcon";
 import { Button } from "./Button";
 import { Input } from "./Input";
-import { useSetRecoilState } from "recoil";
-import { modalwindowRecoil } from "../../store/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { editModalRecoil, reloadRecoil } from "../../store/atom";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { motion } from "framer-motion";
 
-export const CreateWindowModal = () => {
+export const EditWindowModal = () => {
+  const [editModal, setEditModal] = useRecoilState(editModalRecoil);
+  const setReload = useSetRecoilState(reloadRecoil);
+
+  // 🧠 Refs for form inputs
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
-  const setModalWindow = useSetRecoilState(modalwindowRecoil);
 
+  const content = editModal?.contentData;
+
+  /** ✅ Fill existing values into refs when modal opens */
+  useEffect(() => {
+    if (content && editModal.isOpen) {
+      if (titleRef.current) titleRef.current.value = content.title || "";
+      if (linkRef.current) linkRef.current.value = content.link || "";
+      if (descRef.current) descRef.current.value = content.description || "";
+    }
+  }, [content, editModal.isOpen]);
+
+  /** ✅ Form submission */
   const submitHandler = async (e?: React.FormEvent) => {
     e?.preventDefault();
+    if (!content) return;
 
-    const linkValue = linkRef.current?.value?.toLowerCase() || "";
-    const linkType = linkValue.includes("youtube.com")
-      ? "youtube"
-      : linkValue.includes("x.com")
-      ? "x"
-      : "text"; // allow text posts now too
+    const title = titleRef.current?.value?.trim();
+    const link = linkRef.current?.value?.trim();
+    const description = descRef.current?.value?.trim();
+
+    const linkType =
+      link?.includes("youtube.com")
+        ? "youtube"
+        : link?.includes("x.com")
+        ? "x"
+        : "text";
 
     try {
-      await axios.post(
-        `${BACKEND_URL}/content`,
-        {
-          title: titleRef.current?.value,
-          link: linkRef.current?.value || "",
-          description: descRef.current?.value || "",
-          type: linkType,
-        },
-        {
-          headers: {
-            Authorization: `${localStorage.getItem("token")}`,
-          },
-        }
+      await axios.put(
+        `${BACKEND_URL}/content/${content._id}`,
+        { title, link, description, type: linkType },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
 
-      alert("Content added!");
-      setModalWindow(false);
+      alert("Content updated!");
+      setReload(Date.now());
+      setEditModal({ isOpen: false });
     } catch (err) {
-      console.error("Error adding content:", err);
-      alert("Failed to add content.");
+      console.error("Error updating content:", err);
+      alert("Failed to update content.");
     }
   };
 
-  // ✅ Close when clicking outside
+  /** ✅ Click outside to close */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        setModalWindow(false);
+        setEditModal({ isOpen: false });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [setModalWindow]);
+  }, [setEditModal]);
+
+  // 🧠 Only render modal when open
+  if (!editModal.isOpen || !content) return null;
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -70,25 +85,24 @@ export const CreateWindowModal = () => {
         transition={{ type: "spring", stiffness: 150, damping: 15 }}
         className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 w-[90%] max-w-sm relative"
       >
-        {/* Close button */}
+        {/* ❌ Close button */}
         <button
-          onClick={() => setModalWindow(false)}
+          onClick={() => setEditModal({ isOpen: false })}
           className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors"
           aria-label="Close modal"
         >
           <CloseIcon size="md" />
         </button>
 
-        {/* Title */}
+        {/* 🧠 Title */}
         <h2 className="text-xl font-semibold text-gray-800 mb-5 text-center">
-          Add New Content
+          Edit Content
         </h2>
 
-        {/* Form */}
+        {/* ✏️ Form */}
         <form onSubmit={submitHandler} className="flex flex-col gap-4">
           <Input placeholder="Title" reference={titleRef} />
-          <Input placeholder="Link (optional)" reference={linkRef} />
-
+          <Input placeholder="Link" reference={linkRef} />
           <textarea
             ref={descRef}
             placeholder="Description (optional)"
@@ -96,7 +110,7 @@ export const CreateWindowModal = () => {
             rows={4}
           ></textarea>
 
-          <Button variant="primary" text="Submit" size="md" type="submit" />
+          <Button variant="primary" text="Update" size="md" type="submit" />
         </form>
       </motion.div>
     </div>

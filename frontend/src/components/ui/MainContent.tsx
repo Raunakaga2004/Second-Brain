@@ -144,6 +144,7 @@ export const MainContent = () => {
                 type={content.type}
                 link={content.link}
                 _id={content._id}
+                description={content.description}
               />
             </div>
           ))}
