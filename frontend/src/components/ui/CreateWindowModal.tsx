@@ -109,7 +109,7 @@ export const CreateWindowModal = () => {
             rows={4}
           ></textarea>
 
-          <Button variant="primary" text="Submit" size="md" type="submit" />
+          <Button variant="primary" text="Submit" size="md"/>
         </form>
       </motion.div>
     </div>

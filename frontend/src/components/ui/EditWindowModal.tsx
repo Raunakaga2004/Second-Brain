@@ -117,7 +117,7 @@ export const EditWindowModal = () => {
             rows={4}
           ></textarea>
 
-          <Button variant="primary" text="Update" size="md" type="submit" />
+          <Button variant="primary" text="Update" size="md" />
         </form>
       </motion.div>
     </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { SideBar } from "../components/ui/SideBar";
 import { BACKEND_URL } from "../config";
-import { Card } from "../components/ui/Card";
+import { Card, type cardProps } from "../components/ui/Card";
 import { motion } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import { LandingPage } from "../components/ui/LandingPage";
@@ -35,7 +35,7 @@ export const ContentPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${BACKEND_URL}/content`, {
+        const res = await axios.get<{ content?: cardProps[] }>(`${BACKEND_URL}/content`, {
           headers: { Authorization: localStorage.getItem("token") },
         });
 

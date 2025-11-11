@@ -75,7 +75,10 @@ export const Card = (props: cardProps) => {
       script.setAttribute("src", "https://platform.twitter.com/widgets.js");
       script.setAttribute("async", "true");
       document.body.appendChild(script);
-      return () => document.body.removeChild(script);
+      return () => {
+        document.body.removeChild(script);
+        return;
+      };
     }
   }, [props.type, props.link]);
 
@@ -181,7 +184,7 @@ export const Card = (props: cardProps) => {
           Cancel
         </button>
         <button
-          onClick={(e)=>deleteHandler(e)}
+          onClick={(e : any)=>deleteHandler(e)}
           className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
         >
           Delete
