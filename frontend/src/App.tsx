@@ -14,8 +14,6 @@ import { ContentPage } from './pages/ContentPage'
 
 function App() {
 
-  const reloadRecoilValue = useRecoilValue(reloadRecoil);
-
   return <BrowserRouter>
 
     <EditWindowModal/>

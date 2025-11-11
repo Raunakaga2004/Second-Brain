@@ -1,9 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { DeleteIcon } from "../../assets/icons/DeleteIcon";
-import { TwitterIcon } from "../../assets/icons/TwitterIcon";
-import { YoutubeIcon } from "../../assets/icons/YoutubeIcon";
 import { BACKEND_URL } from "../../config";
-import { Button } from "./Button";
 import axios from "axios";
 import { reloadRecoil, editModalRecoil, previewModalRecoil } from "../../store/atom";
 import { useEffect, useState, type MouseEvent } from "react";

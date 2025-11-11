@@ -5,7 +5,7 @@ import type { cardProps } from "../components/ui/Card";
 import { Card } from "../components/ui/Card";
 import axios from "axios";
 import { SideBar } from "../components/ui/SideBar";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import { LandingPage } from "../components/ui/LandingPage";
 

@@ -7,6 +7,7 @@ interface ButtonProps {
   startIcon?: ReactElement;
   endIcon?: ReactElement;
   onClick?: () => void;
+  className?: string;
 }
 
 const sizeVariant = {

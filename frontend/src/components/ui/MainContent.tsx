@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "./Button";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { modalwindowRecoil, reloadRecoil } from "../../store/atom";
 import { BACKEND_URL } from "../../config";
 import axios from 'axios'
 import { Card, type cardProps } from "./Card";
 import { useEffect, useState } from "react";
-import { Copy, Plus, Share, Share2Icon } from "lucide-react";
+import { Copy, Plus, Share2Icon } from "lucide-react";
 import { toast } from "react-toastify";
 
 export const MainContent = () => {

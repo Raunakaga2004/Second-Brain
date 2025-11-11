@@ -1,6 +1,8 @@
 interface inputProps {
     placeholder : string;
     reference : any
+    type?: string;
+    className? : string
 }
 
 export const Input = (props : inputProps) => {
