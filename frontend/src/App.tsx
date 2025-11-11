@@ -10,6 +10,7 @@ import { ResetPassword } from './pages/ResetPassword'
 import Home from './pages/Home'
 import { EditWindowModal } from './components/ui/EditWindowModal'
 import { PreviewModal } from './components/ui/PreviewModel'
+import { ContentPage } from './pages/ContentPage'
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
       <Route path='/share' element={<Share/>}/>
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
-
+      <Route path="/:type" element={<ContentPage />} />
       {/* temporary routes */}
       {/* <Route path='/landing' element={<LandingPage/>}/> */}
     </Routes>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Youtube, Link, Tag, Twitter, LogOut, Menu, X, TwitterIcon } from "lucide-react";
+import { Youtube, LogOut, Menu, X, Text, LinkIcon, Brain } from "lucide-react";
 import { LogoIcon } from "../../assets/icons/LogoIcon";
 import { useNavigate } from "react-router-dom";
 import { FaXTwitter } from "react-icons/fa6";
@@ -70,9 +70,9 @@ export const SideBar = () => {
             >
               {/* Sidebar Header (Logo + Close Button) */}
               <div className="flex items-center justify-between mb-8">
-                <h1 className="text-xl font-semibold flex items-center gap-2 text-blue-600">
+                <div className="text-xl font-semibold flex items-center gap-2 text-blue-600" onClick={()=>navigate('/')}>
                   <LogoIcon size="lg" /> Second Brain
-                </h1>
+                </div>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="p-1.5 rounded-md hover:bg-gray-100 text-gray-600"
@@ -84,17 +84,17 @@ export const SideBar = () => {
               {/* Navigation Links */}
               <div className="flex-1">
                 <ul className="space-y-4 text-gray-700 font-medium">
-                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/x')}>
                     <FaXTwitter size={18} /> Tweets
                   </li>
-                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-                    <Youtube size={18} /> YouTube Videos
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/youtube')}>
+                    <Youtube size={18} /> YouTube
                   </li>
-                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-                    <Link size={18} /> Links
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/text')}>
+                    <Text size={18} /> Text
                   </li>
-                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
-                    <Tag size={18} /> Tags
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/links')}>
+                    <LinkIcon size={18} /> Other Links
                   </li>
                 </ul>
               </div>
@@ -128,16 +128,30 @@ export const SideBar = () => {
         className="hidden md:flex md:flex-col md:justify-between md:w-64 md:h-screen md:bg-white md:border-r md:border-gray-200 md:p-4"
       >
         <div>
-          <h1 className="text-xl font-semibold mb-8 flex items-center gap-2 text-blue-600">
+          <div className="text-xl font-semibold mb-8 flex items-center gap-2 text-blue-600 cursor-pointer" onClick={()=>navigate('/')}>
             <LogoIcon size="lg" /> Second Brain
-          </h1>
+          </div>
 
           <ul className="space-y-4 text-gray-700 font-medium">
-            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
+            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
+            onClick={() => navigate("/")}>
+              <Brain size={18}/> Your Brain
+            </li>
+            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
+            onClick={() => navigate("/x")}>
               <FaXTwitter size={18} /> X
             </li>
-            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer">
+            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
+            onClick={() => navigate("/youtube")}>
               <Youtube size={18} /> YouTube
+            </li>
+            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
+            onClick={() => navigate("/text")}>
+              <Text size={18} /> Text
+            </li>
+            <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
+            onClick={() => navigate("/links")}>
+              <LinkIcon size={18} /> Other Links
             </li>
           </ul>
         </div>
