@@ -150,7 +150,7 @@ export const SideBar = () => {
               <Text size={18} /> Text
             </li>
             <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer"
-            onClick={() => navigate("/links")}>
+            onClick={() => navigate("/link")}>
               <LinkIcon size={18} /> Other Links
             </li>
           </ul>
