@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
-import { useRecoilValue } from 'recoil'
-import { reloadRecoil } from './store/atom'
 import { Share } from './pages/Share'
 // import LandingPage from './components/ui/LandingPage'
 import { ForgotPassword } from './pages/ForgotPassword'
