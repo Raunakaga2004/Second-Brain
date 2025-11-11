@@ -7,6 +7,7 @@ import { modalwindowRecoil } from "../../store/atom";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 export const CreateWindowModal = () => {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -19,11 +20,24 @@ export const CreateWindowModal = () => {
     e?.preventDefault();
 
     const linkValue = linkRef.current?.value?.toLowerCase() || "";
-    const linkType = linkValue.includes("youtube.com")
-      ? "youtube"
-      : linkValue.includes("x.com")
-      ? "x"
-      : "text"; // allow text posts now too
+    
+    const linkType = () => {
+      const link = linkValue.trim();
+
+      if (!link) return "text";
+
+      if (link.includes("youtube.com")) return "youtube";
+      if (link.includes("x.com")) return "x";
+
+      try {
+        new URL(link);
+        return "link";
+      } catch {
+        return "text";
+      }
+    };
+
+    const type = linkType();
 
     try {
       await axios.post(
@@ -32,7 +46,7 @@ export const CreateWindowModal = () => {
           title: titleRef.current?.value,
           link: linkRef.current?.value || "",
           description: descRef.current?.value || "",
-          type: linkType,
+          type: type,
         },
         {
           headers: {
@@ -41,7 +55,7 @@ export const CreateWindowModal = () => {
         }
       );
 
-      alert("Content added!");
+      toast.success(`${type} added successfully!`)
       setModalWindow(false);
     } catch (err) {
       console.error("Error adding content:", err);
@@ -49,7 +63,6 @@ export const CreateWindowModal = () => {
     }
   };
 
-  // ✅ Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {

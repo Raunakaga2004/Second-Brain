@@ -6,7 +6,7 @@ import { userMiddleware } from '../middleware';
 const router = Router();
 //@ts-ignore
 router.post("/", userMiddleware, async (req, res) => {
-    const {link, title, description, tags} = req.body;
+    const {link, title, description, type} = req.body;
 
     // Validation
     if (!title) {
@@ -18,9 +18,9 @@ router.post("/", userMiddleware, async (req, res) => {
             link,
             title,
             description : description || "",
+            type : type,
             //@ts-ignore
             userId : req.userId,
-            tags : tags || []
         });
 
         res.status(200).json({

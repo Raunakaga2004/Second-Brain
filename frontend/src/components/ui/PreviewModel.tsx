@@ -7,6 +7,7 @@ import { TwitterIcon } from "../../assets/icons/TwitterIcon";
 import { Button } from "./Button";
 import { FaXTwitter } from "react-icons/fa6";
 import { Text, Youtube } from "lucide-react";
+import { LinkPreview } from "./LinkPreview";
 
 export const PreviewModal = () => {
   const [previewModal, setPreviewModal] = useRecoilState(previewModalRecoil);
@@ -61,6 +62,12 @@ export const PreviewModal = () => {
             <blockquote className="twitter-tweet">
               <a href={content.link?.replace("x.com", "twitter.com")}></a>
             </blockquote>
+          )}
+
+          {content.type === 'link' && (
+            <div className="">
+              <LinkPreview url={content.link || ""} />
+            </div>
           )}
         </div>
       </motion.div>

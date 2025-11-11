@@ -7,12 +7,12 @@ import { editModalRecoil, reloadRecoil } from "../../store/atom";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 export const EditWindowModal = () => {
   const [editModal, setEditModal] = useRecoilState(editModalRecoil);
   const setReload = useSetRecoilState(reloadRecoil);
 
-  // 🧠 Refs for form inputs
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
@@ -20,7 +20,6 @@ export const EditWindowModal = () => {
 
   const content = editModal?.contentData;
 
-  /** ✅ Fill existing values into refs when modal opens */
   useEffect(() => {
     if (content && editModal.isOpen) {
       if (titleRef.current) titleRef.current.value = content.title || "";
@@ -29,7 +28,6 @@ export const EditWindowModal = () => {
     }
   }, [content, editModal.isOpen]);
 
-  /** ✅ Form submission */
   const submitHandler = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!content) return;
@@ -38,21 +36,35 @@ export const EditWindowModal = () => {
     const link = linkRef.current?.value?.trim();
     const description = descRef.current?.value?.trim();
 
-    const linkType =
-      link?.includes("youtube.com")
-        ? "youtube"
-        : link?.includes("x.com")
-        ? "x"
-        : "text";
+    const linkValue = linkRef.current?.value?.toLowerCase() || "";
+    
+    const linkType = () => {
+      const link = linkValue.trim();
+
+      if (!link) return "text";
+
+      if (link.includes("youtube.com")) return "youtube";
+      if (link.includes("x.com")) return "x";
+
+      try {
+        new URL(link);
+        return "link";
+      } catch {
+        return "text";
+      }
+    };
+
+    const type = linkType();
 
     try {
       await axios.put(
         `${BACKEND_URL}/content/${content._id}`,
-        { title, link, description, type: linkType },
+        { title, link, description, type: type },
         { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
 
-      alert("Content updated!");
+      toast.success(`${type} edited successfully!`)
+
       setReload(Date.now());
       setEditModal({ isOpen: false });
     } catch (err) {
@@ -61,7 +73,6 @@ export const EditWindowModal = () => {
     }
   };
 
-  /** ✅ Click outside to close */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -72,7 +83,6 @@ export const EditWindowModal = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [setEditModal]);
 
-  // 🧠 Only render modal when open
   if (!editModal.isOpen || !content) return null;
 
   return (
@@ -85,7 +95,6 @@ export const EditWindowModal = () => {
         transition={{ type: "spring", stiffness: 150, damping: 15 }}
         className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 w-[90%] max-w-sm relative"
       >
-        {/* ❌ Close button */}
         <button
           onClick={() => setEditModal({ isOpen: false })}
           className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors"
@@ -94,12 +103,10 @@ export const EditWindowModal = () => {
           <CloseIcon size="md" />
         </button>
 
-        {/* 🧠 Title */}
         <h2 className="text-xl font-semibold text-gray-800 mb-5 text-center">
           Edit Content
         </h2>
 
-        {/* ✏️ Form */}
         <form onSubmit={submitHandler} className="flex flex-col gap-4">
           <Input placeholder="Title" reference={titleRef} />
           <Input placeholder="Link" reference={linkRef} />

@@ -1,7 +1,22 @@
 [
   {
-    "id": "1762195708993",
-    "text": "add normal text post, other links, and youtube and x",
+    "id": "1762530883519",
+    "text": "and add other link options",
+    "completed": true
+  },
+  {
+    "id": "1762530869628",
+    "text": "in preview video is not loading",
+    "completed": true
+  },
+  {
+    "id": "1762530850147",
+    "text": "youtube video is not loading in the first i put the link video",
+    "completed": true
+  },
+  {
+    "id": "1762530827580",
+    "text": "fix the highligh feature of edit and delelte and card for preview",
     "completed": false
   },
   {
