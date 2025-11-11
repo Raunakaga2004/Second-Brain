@@ -19,7 +19,6 @@ export const ContentPage = () => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // 🔹 Check authentication (same as Home)
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -33,7 +32,6 @@ export const ContentPage = () => {
     }
   }, []);
 
-  // 🔹 Fetch content based on type
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,12 +39,10 @@ export const ContentPage = () => {
           headers: { Authorization: localStorage.getItem("token") },
         });
 
-        // 2️⃣ Normalize API data
         const allData = Array.isArray(res.data)
           ? res.data
           : res.data?.content || [];
 
-        // 3️⃣ Filter locally by `type` from URL
         const filtered = type
           ? allData.filter((item) => item.type === type)
           : allData;
@@ -66,7 +62,7 @@ export const ContentPage = () => {
   if (!isAuthenticated) return <LandingPage />;
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#f7faff] overflow-hidden">
+    <div className="h-screen w-screen flex flex-col bg-[#f7faff] overflow-hidden dark:bg-[#0d1117]">
       {/* Main body */}
       <div className="flex-1 flex pt-[56px] md:pt-0 overflow-hidden">
         <SideBar />

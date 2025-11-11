@@ -34,7 +34,7 @@ const Home = () => {
   if (!isAuthenticated) return <LandingPage />;
 
   return (
-  <div className="h-screen w-screen flex flex-col bg-[#f7faff] overflow-hidden">
+  <div className="h-screen w-screen flex flex-col bg-[#f7faff] dark:bg-[#0d1117] overflow-hidden">
   {/* Main body */}
   <div className="flex-1 flex pt-[56px] md:pt-0 overflow-hidden">
     <SideBar />
