@@ -36,17 +36,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tag = exports.Link = exports.Content = exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const UsersSchema = new mongoose_1.default.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    name: { type: String, required: true },
+    mail: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    resetToken: { type: String },
+    resetTokenExpiry: { type: Number },
 });
-const contentTypes = ['youtube', 'x'];
+const contentTypes = ['youtube', 'x', 'text', 'link'];
 const ContentSchema = new mongoose_1.default.Schema({
-    link: { type: String, required: true },
-    type: { type: String, enum: contentTypes, required: true },
     title: { type: String, required: true },
+    description: { type: String },
+    type: { type: String, enum: contentTypes, default: 'text' },
+    link: { type: String },
     tags: [{ type: mongoose_1.Types.ObjectId, ref: 'Tag' }],
-    userId: { type: mongoose_1.Types.ObjectId, ref: 'User', required: true }
-});
+    userId: { type: mongoose_1.Types.ObjectId, ref: 'User', required: true },
+}, { timestamps: true });
 const LinkSchema = new mongoose_1.default.Schema({
     hash: { type: String, required: true, unique: true },
     userId: { type: mongoose_1.Types.ObjectId, required: true, ref: 'User' }

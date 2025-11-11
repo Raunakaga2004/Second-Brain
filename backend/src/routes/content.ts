@@ -78,6 +78,7 @@ router.put("/:id", userMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, link, tags, type } = req.body;
+    //@ts-ignore
     const userId = req.userId;
 
     // Basic validation
