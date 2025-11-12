@@ -84,6 +84,9 @@ export const SideBar = () => {
               {/* Navigation Links */}
               <div className="flex-1">
                 <ul className="space-y-4 text-gray-700 font-medium">
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={() => navigate("/")}>
+                    <Brain size={18}/> Your Brain
+                  </li>
                   <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/x')}>
                     <FaXTwitter size={18} /> Tweets
                   </li>
@@ -93,7 +96,7 @@ export const SideBar = () => {
                   <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/text')}>
                     <Text size={18} /> Text
                   </li>
-                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/links')}>
+                  <li className="flex items-center gap-3 hover:text-blue-600 cursor-pointer" onClick={()=>navigate('/link')}>
                     <LinkIcon size={18} /> Other Links
                   </li>
                 </ul>
