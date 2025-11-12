@@ -61,7 +61,7 @@ export const MainContent = () => {
       // toast.success("Share link copied to clipboard!");
 
       // const shareLink = `http://localhost:5173/share?hash=${res.data.hash}`;
-      const shareLink = `https://secondbrain.raunakagarwal.me/share?hash=${res.data.hash}`;
+      // const shareLink = `https://secondbrain.raunakagarwal.me/share?hash=${res.data.hash}`;
 
       toast(
         <div className="flex flex-col items-center justify-between gap-3">
