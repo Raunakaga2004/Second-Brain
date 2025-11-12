@@ -6,7 +6,7 @@ import { BACKEND_URL } from "../../config";
 import axios from 'axios'
 import { Card, type cardProps } from "./Card";
 import { useEffect, useState } from "react";
-import { Copy, Plus, Share2Icon } from "lucide-react";
+import { Plus, Share2Icon } from "lucide-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
