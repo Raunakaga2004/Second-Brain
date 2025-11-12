@@ -6,12 +6,12 @@ import { BACKEND_URL } from "../../config";
 import axios from 'axios'
 import { Card, type cardProps } from "./Card";
 import { useEffect, useState } from "react";
-import { Plus, Share2Icon } from "lucide-react";
+import { Copy, Plus, Share2Icon } from "lucide-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export const MainContent = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [contents, setContents] = useState<cardProps[]>([]);
   const [modalWindow, setModalWindow] = useRecoilState(modalwindowRecoil);
 
@@ -61,17 +61,17 @@ export const MainContent = () => {
       // toast.success("Share link copied to clipboard!");
 
       // const shareLink = `http://localhost:5173/share?hash=${res.data.hash}`;
-      // const shareLink = `https://secondbrain.raunakagarwal.me/share?hash=${res.data.hash}`;
+      const shareLink = `https://secondbrain.raunakagarwal.me//share?hash=${res.data.hash}`;
 
       toast(
         <div className="flex flex-col items-center justify-between gap-3">
           {/* Link */}
-          <div onClick={()=>
-            navigate(`/share?hash=${res.data.hash}`)
-          } className="cursor-pointer"> Click to share this Brain </div>
+          <div
+            // navigate(`/share?hash=${res.data.hash}`)
+           className="cursor-pointer"> {shareLink} </div>
 
           {/* Copy Icon Button */}
-          {/* <Copy
+          <Copy
             size={18}
             className="text-gray-600 hover:text-blue-600 cursor-pointer transition"
             onClick={() => {
@@ -82,7 +82,7 @@ export const MainContent = () => {
                 theme: "light",
               });
             }}
-          /> */}
+          />
         </div>,
         {
           position: "bottom-center",
